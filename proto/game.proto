@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+// Web exposes a backend server over gRPC.
+package game;
+import "google/protobuf/empty.proto";
+
+import "github.com/johanbrandhorst/protobuf/proto/gopherjs.proto";
+
+
+
+// Define the package locations the generated files will go into
+option (gopherjs.gopherjs_package) = "github.com/kyeett/grpc-experiments/proto/client";
+option go_package = "github.com/kyeett/grpc-experiments/proto/server";
+
+
+
+message Empty {
+}
+
+
+message PlayerID {
+    string ID = 1;
+}
+
+message EntityResponse {
+    bytes payload = 1;
+}
+
+
+service Backend {
+    rpc NewPlayer(google.protobuf.Empty) returns (PlayerID) {}
+    // rpc PerformAction(ActionRequest) returns (ActionRequest) {}
+    rpc EntityStream(google.protobuf.Empty) returns (stream EntityResponse) {}
+}
+
